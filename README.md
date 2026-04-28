@@ -1,6 +1,6 @@
 📘 Laboratorio CRUD con Laravel
-📌 Introducción
 
+📌 Introducción
 Este laboratorio tiene como objetivo desarrollar una aplicación web utilizando el framework Laravel, implementando un sistema CRUD (Create, Read, Update, Delete) para la gestión de productos, aplicando la arquitectura MVC.
 
 🧠 Arquitectura MVC
