@@ -1,58 +1,162 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+📘 Laboratorio CRUD con Laravel
+📌 Introducción
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este laboratorio tiene como objetivo desarrollar una aplicación web utilizando el framework Laravel, implementando un sistema CRUD (Create, Read, Update, Delete) para la gestión de productos, aplicando la arquitectura MVC.
 
-## About Laravel
+🧠 Arquitectura MVC
+Modelos (Models): Manejan la lógica de la base de datos (Product).
+Vistas (Views): Interfaz gráfica del sistema (formularios y tablas).
+Controladores (Controllers): Gestionan la lógica del CRUD.
+Rutas (Routes): Definen las URLs del sistema.
+🎯 Objetivo del laboratorio
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Desarrollar un sistema CRUD funcional en Laravel que permita:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Crear productos
+Listar productos
+Editar productos
+Eliminar productos
+⚙️ Prerrequisitos
+🧩 Ecosistema de desarrollo
+🐘 PHP ≥ 8.1
+📦 Composer
+🚀 Laravel
+🌐 WampServer
+🗄️ MySQL
+💻 Visual Studio Code
+🟡 Node.js (para Vite)
+🛠️ Instalación del proyecto
+1️⃣ Crear proyecto
+laravel new crud_laravel
+2️⃣ Entrar al proyecto
+cd crud_laravel
+3️⃣ Instalar dependencias
+composer install
+npm install
+⚙️ Configuración del entorno
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Editar archivo .env:
 
-## Learning Laravel
+DB_DATABASE=crudLaravel
+DB_USERNAME=root
+DB_PASSWORD=
+🔐 Generar clave de aplicación
+php artisan key:generate
+🗄️ Base de Datos
+Crear base de datos
+CREATE DATABASE crudLaravel;
+Ejecutar migraciones
+php artisan migrate
+🧱 Creación del CRUD
+1️⃣ Crear modelo + migración
+php artisan make:model Product -m
+2️⃣ Editar migración
+$table->id();
+$table->string('description');
+$table->double('price', 8, 2);
+$table->integer('stock');
+$table->timestamps();
+3️⃣ Ejecutar migración
+php artisan migrate
+⚡ Generador CRUD automático
+Instalar paquete
+composer require ibex/crud-generator --dev
+Publicar archivos
+php artisan vendor:publish --tag=crud
+Generar CRUD
+php artisan make:crud products
+🧾 Configuración de rutas
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+En routes/web.php:
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+use App\Http\Controllers\ProductController;
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Route::resource('products', ProductController::class);
+🔐 Seguridad del modelo
 
-## Agentic Development
+En app/Models/Product.php:
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+protected $fillable = ['description', 'price', 'stock'];
+📥 Validación de datos
 
-```bash
-composer require laravel/boost --dev
+Crear request:
 
-php artisan boost:install
-```
+php artisan make:request ProductRequest
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Editar:
 
-## Contributing
+public function authorize(): bool
+{
+    return true;
+}
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+public function rules(): array
+{
+    return [
+        'description' => 'required',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+    ];
+}
+🚀 Ejecución del proyecto
+Backend
+php artisan serve
+Frontend
+npm run dev
+🌐 Acceso
+http://127.0.0.1:8000/products
+📸 Resultado
 
-## Code of Conduct
+Sistema CRUD funcional con:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Listado de productos
+Formulario de creación
+Edición de productos
+Eliminación
+⚠️ Dificultades y soluciones
 
-## Security Vulnerabilities
+❌ Error: vendor/autoload.php not found
+✔ Solución:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+composer install
 
-## License
+❌ Error: No application encryption key
+✔ Solución:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+php artisan key:generate
+
+❌ Error: Vite manifest not found
+✔ Solución:
+
+npm install
+npm run dev
+
+❌ Error: ProductRequest no existe
+✔ Solución:
+
+php artisan make:request ProductRequest
+
+❌ Error de base de datos
+✔ Solución:
+
+Verificar .env
+Crear base de datos
+📚 Referencias
+https://laravel.com/docs
+https://getcomposer.org
+https://nodejs.org
+https://www.php.net
+📅 Fecha de ejecución
+
+Abril 2026
+
+👨‍💻 Autor
+
+Este laboratorio fue desarrollado por:
+
+Nombre: Jamir Montenegro
+Correo: jamir.montenegro@utp.ac.pa
+
+Curso: DS7
+Instructor: Irina Fong
+
